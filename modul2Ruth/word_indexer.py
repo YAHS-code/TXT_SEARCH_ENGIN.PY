@@ -1,12 +1,13 @@
 import os
 import json
-from file_reader import lire_fichiers, nettoyer_texte
+from modul1Randy.file_reader import lire_fichiers, nettoyer_texte
 
-# Fonction principale pour créer un index des mots
-# Pour chaque mot trouvé, on enregistre le nom de fichier, numéro de ligne et position
+# Fonction principale pour créer un index inversé des mots
+# Chaque mot est associé à une liste d’occurrences (fichier, ligne, position)
 def creer_index(dossier):
     index = {}
     fichiers = lire_fichiers(dossier)
+    
     for fichier in fichiers:
         with open(fichier, 'r', encoding='utf-8') as f:
             for num_ligne, ligne in enumerate(f, 1):
@@ -20,14 +21,15 @@ def creer_index(dossier):
                         'ligne': num_ligne,
                         'position': pos
                     })
+    
     return index
 
-# Sauvegarde de l'index au format JSON
+# Sauvegarde de l'index dans un fichier JSON
 def sauvegarder_index(index, chemin='index.json'):
     with open(chemin, 'w', encoding='utf-8') as f:
         json.dump(index, f, indent=2)
 
-# Chargement d'un index existant si disponible
+# Chargement d’un index depuis un fichier JSON, si présent
 def charger_index(chemin='index.json'):
     if os.path.exists(chemin):
         with open(chemin, 'r', encoding='utf-8') as f:

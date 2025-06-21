@@ -18,7 +18,7 @@ def recherche_multiple(index, mots, mode='OU'):
 
     elif mode == 'ET':
         # Récupérer les ensembles de fichiers pour chaque mot
-        fichiers_par_mot = [set([entry['fichier'] for entry in index.get(mot, [])]) for mot in mots]
+        fichiers_par_mot = [set(entry['fichier'] for entry in index.get(mot, [])) for mot in mots]
         if fichiers_par_mot:
             # Intersecter les fichiers pour trouver ceux contenant tous les mots
             fichiers_communs = set.intersection(*fichiers_par_mot)
